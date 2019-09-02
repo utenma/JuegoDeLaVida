@@ -44,11 +44,11 @@ class Tablero {
 
     }
 
-    private AccionCeldaSiguienteGen ChecarPorVecinos(byte x, byte y) {
+    private AccionCeldaSiguienteGeneracion ChecarPorVecinos(byte x, byte y) {
         byte vecinos = 0;
 
-        if (AdministradorDeJuego.debug) System.out.println("-----------------------------------------------------");
-        if (AdministradorDeJuego.debug) System.out.println("Revisión de vecinos para celda [" + x + "][" + y + "]");
+        if (Motor.debug) System.out.println("-----------------------------------------------------");
+        if (Motor.debug) System.out.println("Revisión de vecinos para celda [" + x + "][" + y + "]");
         for (int f = -1; f <= 1; f++) {
             int X = x + f;
             if (X >= 0 && X < filas) {
@@ -57,7 +57,7 @@ class Tablero {
                     int Y = y + c;
                     if (Y >= 0 && Y < columnas) {
                         try {
-                            if (AdministradorDeJuego.debug) {
+                            if (Motor.debug) {
                                 System.out.print("Vecino [" + X + "][" + Y + "] = ");
                                 if (celdas[X][Y].organismo)
                                     System.out.println(Consola.Color.GREEN + celdas[X][Y].organismo + Consola.Color.RESET);
@@ -66,45 +66,45 @@ class Tablero {
                             }
                             if (celdas[X][Y].organismo) vecinos++;
                         } catch (Exception e) {
-                            if (AdministradorDeJuego.debug)
+                            if (Motor.debug)
                                 System.out.println("Excepción para Celda [" + X + "][" + Y + "]");
-                            if (AdministradorDeJuego.debug) System.out.println(e.getMessage());
+                            if (Motor.debug) System.out.println(e.getMessage());
                         }
                     }
                 }
             }
         }
-        if (AdministradorDeJuego.debug)
+        if (Motor.debug)
             System.out.println("Resultado de revisión de vecinos para celda [" + x + "][" + y + "] = " + vecinos + " Vecinos");
         if (celdas[x][y].organismo) {
-            if (vecinos < 2) return AccionCeldaSiguienteGen.Eliminar;
-            else if (vecinos == 2 || vecinos == 3) return AccionCeldaSiguienteGen.Ninguna;
-            else if (vecinos > 3) return AccionCeldaSiguienteGen.Eliminar;
-        } else if (vecinos == 3) return AccionCeldaSiguienteGen.Añadir;
+            if (vecinos < 2) return AccionCeldaSiguienteGeneracion.Eliminar;
+            else if (vecinos == 2 || vecinos == 3) return AccionCeldaSiguienteGeneracion.Ninguna;
+            else if (vecinos > 3) return AccionCeldaSiguienteGeneracion.Eliminar;
+        } else if (vecinos == 3) return AccionCeldaSiguienteGeneracion.Añadir;
 
-        return AccionCeldaSiguienteGen.Ninguna;
+        return AccionCeldaSiguienteGeneracion.Ninguna;
     }
 
     public void CalcularAcciones() {
-        if (AdministradorDeJuego.debug) System.out.println("-----------------");
-        if (AdministradorDeJuego.debug) System.out.println("Calcular Acciones");
-        if (AdministradorDeJuego.debug) System.out.println("-----------------");
+        if (Motor.debug) System.out.println("-----------------");
+        if (Motor.debug) System.out.println("Calcular Acciones");
+        if (Motor.debug) System.out.println("-----------------");
         for (byte f = 0; f < celdas.length; f++) {
             for (byte c = 0; c < celdas[f].length; c++) {
                 celdas[f][c].accion = ChecarPorVecinos(f, c);
             }
         }
-        if (AdministradorDeJuego.debug) System.out.println("-----------------------------------------------------");
+        if (Motor.debug) System.out.println("-----------------------------------------------------");
     }
 
     public void AplicarAcciones() {
-        if (AdministradorDeJuego.debug) System.out.println("----------------");
-        if (AdministradorDeJuego.debug) System.out.println("Aplicar Acciones");
-        if (AdministradorDeJuego.debug) System.out.println("----------------");
+        if (Motor.debug) System.out.println("----------------");
+        if (Motor.debug) System.out.println("Aplicar Acciones");
+        if (Motor.debug) System.out.println("----------------");
         for (int f = 0; f < filas; f++) {
             for (int c = 0; c < columnas; c++) {
-                if (celdas[f][c].accion == AccionCeldaSiguienteGen.Añadir) celdas[f][c].organismo = true;
-                if (celdas[f][c].accion == AccionCeldaSiguienteGen.Eliminar) celdas[f][c].organismo = false;
+                if (celdas[f][c].accion == AccionCeldaSiguienteGeneracion.Añadir) celdas[f][c].organismo = true;
+                if (celdas[f][c].accion == AccionCeldaSiguienteGeneracion.Eliminar) celdas[f][c].organismo = false;
             }
         }
         generacion++;
@@ -128,11 +128,11 @@ class Tablero {
                 String color = Consola.Color.BLUE;
                 if (celdas[f][c].organismo) {
                     caracter = "*";
-                    if(AdministradorDeJuego.marcar) { if (celdas[f][c].accion == AccionCeldaSiguienteGen.Eliminar) color = Consola.Color.RED;}
+                    if(Motor.marcar) { if (celdas[f][c].accion == AccionCeldaSiguienteGeneracion.Eliminar) color = Consola.Color.RED;}
                 }
                 else {
-                    if (AdministradorDeJuego.marcar) {
-                        if (celdas[f][c].accion == AccionCeldaSiguienteGen.Añadir) {
+                    if (Motor.marcar) {
+                        if (celdas[f][c].accion == AccionCeldaSiguienteGeneracion.Añadir) {
                             color = Consola.Color.WHITE;
                             caracter = "¤";
                         } else caracter = " ";
@@ -173,7 +173,7 @@ class Tablero {
     public boolean HayAcciones(){
         for (byte f = 0; f < filas; f++) {
             for (byte c = 0; c < columnas; c++) {
-                if (celdas[f][c].accion != AccionCeldaSiguienteGen.Ninguna) return true;
+                if (celdas[f][c].accion != AccionCeldaSiguienteGeneracion.Ninguna) return true;
             }
         }
         return  false;

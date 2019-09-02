@@ -2,7 +2,7 @@ package com.mcc;
 
 import com.util.Consola;
 
-class AdministradorDeJuego {
+class Motor {
     static Tablero tablero;
     static final boolean debug = false;
     static final boolean marcar = true;
@@ -13,7 +13,7 @@ class AdministradorDeJuego {
         System.out.println("Juego de la Vida de John H. Conway\n");
 
       try {
-            new ConfiguradorConsola();
+            new Configurador();
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -22,7 +22,7 @@ class AdministradorDeJuego {
     public static void GenerarTablero(int filas, int columnas, int generaciones, int porcentajeDeOrganismosIniciales){
         tablero = new Tablero(filas, columnas, generaciones, porcentajeDeOrganismosIniciales);
         if (organismosRandom) tablero.GenerarOrganismosRandom();
-        else ConfiguradorConsola.ConfigurarCoordenadasDeOrganismosIniciales();
+        else Configurador.ConfigurarCoordenadasDeOrganismosIniciales();
     }
 
     public static void IniciarJuego() {

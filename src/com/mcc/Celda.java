@@ -1,11 +1,11 @@
 package com.mcc;
 
 public class Celda {
-    AccionCeldaSiguienteGen accion;
+    AccionCeldaSiguienteGeneracion accion;
     Boolean organismo ;
 
     public Celda() {
         organismo = false;
-        accion =  AccionCeldaSiguienteGen.Ninguna;
+        accion =  AccionCeldaSiguienteGeneracion.Ninguna;
     }
 }
