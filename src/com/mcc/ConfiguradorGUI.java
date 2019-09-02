@@ -39,7 +39,8 @@ public class ConfiguradorGUI {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     AdministradorDeJuego.tablero = new Tablero(Integer.parseInt(numFilasT.getText()), Integer.parseInt(numColumnasT.getText()), Integer.parseInt(numGeneracionesT.getText()), numOrganismosS.getValue());
-                    AdministradorDeJuego.tablero.GenerarOrganismosRandom();
+                    if (AdministradorDeJuego.organismosRandom) AdministradorDeJuego.tablero.GenerarOrganismosRandom();
+                    else ObtenerCoordenadasOrganismos();
                     AdministradorDeJuego.IniciarJuego();
                 }
             });
@@ -57,8 +58,8 @@ public class ConfiguradorGUI {
             frame.setVisible(true);
         }
 
-        private void ObtenerCoordenadas(){
-            for (int i = 0; i <  AdministradorDeJuego.tablero.NumeroDeCeldas; i++) {
+        private void ObtenerCoordenadasOrganismos(){
+            for (int i = 0; i <  AdministradorDeJuego.tablero.NumeroDeOrganismosIniciales; i++) {
                 JTextField xField = new JTextField(4);
                 JTextField yField = new JTextField(4);
 
@@ -74,7 +75,7 @@ public class ConfiguradorGUI {
                 if (result == JOptionPane.OK_OPTION) {
                     System.out.println("Organismo " + i + " : x = " + xField.getText() + " y = " + yField.getText());
                 }
-                AdministradorDeJuego.tablero.celdas[Integer.parseInt(yField.getText())][Integer.parseInt(xField.getText())].accion = AccionCeldaSiguienteGen.Añadir;
+                AdministradorDeJuego.tablero.celdas[Integer.parseInt(yField.getText())][Integer.parseInt(xField.getText())].organismo = true;
             }
         }
     }

@@ -7,6 +7,7 @@ public class AdministradorDeJuego {
     public static Tablero tablero;
     public static boolean debug = false;
     public static boolean marcar = true;
+    public static boolean organismosRandom = false;
 
     public static void main(String[] args) {
         System.out.println("Tecnologías de programación");

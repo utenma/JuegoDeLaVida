@@ -3,14 +3,15 @@ package com.mcc;
 import java.util.Random;
 
 public class Tablero {
-    public static Celda[][] celdas;
-    static int filas;
-    static int columnas;
-    public static int generacion = 0;
-    public static int numeroDeGeneraciones;
-    static int porcentajeInicialDeOrganismos = 0;
-    static int NumeroDeOrganismos = 0;
-    static int NumeroDeCeldas = 0;
+
+    public Celda[][] celdas;
+    int filas;
+    int columnas;
+    public int generacion = 0;
+    public int numeroDeGeneraciones;
+    int porcentajeInicialDeOrganismos = 0;
+    int NumeroDeOrganismosIniciales = 0;
+    int NumeroDeCeldas = 0;
 
     public Tablero(int numFilas, int numColumnas, int numGeneraciones, int porOrganismos) {
 
@@ -21,7 +22,7 @@ public class Tablero {
         celdas = new Celda[numFilas][numColumnas];
         numeroDeGeneraciones = numGeneraciones;
         porcentajeInicialDeOrganismos = porOrganismos;
-        NumeroDeOrganismos = Math.round((porcentajeInicialDeOrganismos * filas * columnas) / 100f);
+        NumeroDeOrganismosIniciales = Math.round((porcentajeInicialDeOrganismos * filas * columnas) / 100f);
 
         for (int f = 0; f < celdas.length; f++) {
             for (int c = 0; c < celdas[f].length; c++) {
@@ -38,7 +39,7 @@ public class Tablero {
             System.out.println("Cantidad de organismos iniciales = " +
                     NumeroDeCeldas + " x " + porOrganismos +
                     " % " + " = " + (porOrganismos * filas * columnas) / 100f
-                    + " -> " + NumeroDeOrganismos);
+                    + " -> " + NumeroDeOrganismosIniciales);
             System.out.println("---------------------------------------------------------");
         }
     }
@@ -147,7 +148,7 @@ public class Tablero {
     public void GenerarOrganismosRandom() {
         Random random = new Random();
 
-        for (int i = 0; i < NumeroDeOrganismos; i++) {
+        for (int i = 0; i < NumeroDeOrganismosIniciales; i++) {
             int fil;
             int col;
             do {
