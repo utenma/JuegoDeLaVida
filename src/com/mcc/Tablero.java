@@ -86,9 +86,6 @@ class Tablero {
     }
 
     public void CalcularAcciones() {
-        if (Motor.debug) System.out.println("-----------------");
-        if (Motor.debug) System.out.println("Calcular Acciones");
-        if (Motor.debug) System.out.println("-----------------");
         for (byte f = 0; f < celdas.length; f++) {
             for (byte c = 0; c < celdas[f].length; c++) {
                 celdas[f][c].accion = ChecarPorVecinos(f, c);
@@ -98,9 +95,6 @@ class Tablero {
     }
 
     public void AplicarAcciones() {
-        if (Motor.debug) System.out.println("----------------");
-        if (Motor.debug) System.out.println("Aplicar Acciones");
-        if (Motor.debug) System.out.println("----------------");
         for (int f = 0; f < filas; f++) {
             for (int c = 0; c < columnas; c++) {
                 if (celdas[f][c].accion == AccionCeldaSiguienteGeneracion.Añadir) celdas[f][c].organismo = true;
@@ -112,7 +106,6 @@ class Tablero {
 
     public void MostrarCeldas() {
         System.out.println("Tablero Generacion " + generacion);
-
         System.out.print(" ");
         for (int c = 0; c < columnas; c++) {
             System.out.print(" ");

@@ -6,8 +6,8 @@ import java.util.Scanner;
 
 class Motor {
     static Tablero tablero;
-    static final boolean debug = false;
-    static final boolean marcar = true;
+    static boolean debug = false;
+    static boolean marcar = true;
     static boolean organismosRandom;
 
     public static void main(String[] args) {

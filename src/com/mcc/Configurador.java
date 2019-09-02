@@ -16,6 +16,10 @@ class Configurador {
         int porcentajeDeOrganismosIniciales = LeerEntero();
         System.out.print("Generar Organismos automaticamente Sí: true , No: false ");
         Motor.organismosRandom = LeerBooleano();
+        System.out.print("Marcar acciones en tablero: true , No: false ");
+        Motor.marcar = LeerBooleano();
+        System.out.print("Mostrar Debug Sí: true , No: false ");
+        Motor.debug = LeerBooleano();
 
         Motor.GenerarTablero(filas, columnas, generaciones, porcentajeDeOrganismosIniciales);
         Motor.IniciarJuego();
@@ -27,7 +31,7 @@ class Configurador {
         try {
             b = sc.nextBoolean();
         } catch (Exception  e) {
-            System.out.println("Error de entrada -> generaran organismos random");
+            System.out.println("Error de entrada -> se usa Default (true)");
         }
         return b;
     }
