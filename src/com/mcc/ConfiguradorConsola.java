@@ -1,9 +1,7 @@
 package com.mcc;
 
-
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
+import java.util.Scanner;
 
 class ConfiguradorConsola {
     ConfiguradorConsola() throws IOException {
@@ -23,11 +21,12 @@ class ConfiguradorConsola {
 
     private static int LeerEntero() throws IOException {
 
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        Scanner sc = new Scanner(System.in);
+
         int i = 0;
 
         try {
-            i = Integer.parseInt(br.readLine());
+            i = sc.nextInt();
         } catch (NumberFormatException e) {
             System.err.println(e.getMessage());
         }
@@ -53,8 +52,7 @@ class ConfiguradorConsola {
                 if (x >= AdministradorDeJuego.tablero.filas) {
                     x = AdministradorDeJuego.tablero.filas - 1;
                     System.out.println("x -> " + x);
-                }
-                else if (x < 0) {
+                } else if (x < 0) {
                     x = 0;
                     System.out.println("x -> " + x);
                 }
@@ -70,8 +68,7 @@ class ConfiguradorConsola {
                 if (y >= AdministradorDeJuego.tablero.columnas) {
                     y = AdministradorDeJuego.tablero.columnas - 1;
                     System.out.println("y -> " + y);
-                }
-                else if (y < 0) {
+                } else if (y < 0) {
                     y = 0;
                     System.out.println("y -> " + y);
                 }
