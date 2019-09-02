@@ -7,77 +7,75 @@ import java.awt.event.ActionListener;
 public class ConfiguradorGUI {
 
     public ConfiguradorGUI() {
-        EjecutarConfiguradorGeneral();
+        ConfiguracionInicial configuracionInicial = new ConfiguracionInicial();
+        configuracionInicial.Ejecutar();
     }
 
-    private void EjecutarConfiguradorGeneral(){
+    public class ConfiguracionInicial {
+        public void Ejecutar(){
+            JFrame frame = new JFrame();
+            frame.setTitle("Juego de La Vida Configuracion Inicial");
+            frame.setBounds(10,20,300,300);
 
+            JPanel panel = new JPanel();
+            panel.setLayout(new GridLayout(5,2));
+            frame.add(panel);
 
-        JFrame frame = new JFrame();
-        frame.setTitle("Juego de La Vida Configuracion Inicial");
-        frame.setBounds(10,20,300,300);
+            JLabel numFilasL = new JLabel("Numero de Filas :");
+            JLabel numColumnasL = new JLabel("Numero de Columnas :");
+            JLabel numGeneracionesL = new JLabel("Numero de Generaciones :");
+            JLabel numOrganismosL = new JLabel("<html>Numero de<br>Organismos %</html>");
+            JTextField numFilasT = new  JTextField("6");
+            JTextField numColumnasT = new  JTextField("6");
+            JTextField numGeneracionesT = new  JTextField("10");
 
-        JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(5,2));
-        frame.add(panel);
+            JSlider numOrganismosS = new JSlider(0,50,50);
+            numOrganismosS.setMajorTickSpacing(10);
+            numOrganismosS.setPaintTicks(true);
+            numOrganismosS.setPaintLabels(true);
 
-        JLabel numFilasL = new JLabel("Numero de Filas :");
-        JLabel numColumnasL = new JLabel("Numero de Columnas :");
-        JLabel numGeneracionesL = new JLabel("Numero de Generaciones :");
-        JLabel numOrganismosL = new JLabel("<html>Numero de<br>Organismos %</html>");
-        JTextField numFilasT = new  JTextField("6");
-        JTextField numColumnasT = new  JTextField("6");
-        JTextField numGeneracionesT = new  JTextField("10");
+            JButton next =  new JButton("Continuar");
+            next.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    AdministradorDeJuego.tablero = new Tablero(Integer.parseInt(numFilasT.getText()), Integer.parseInt(numColumnasT.getText()), Integer.parseInt(numGeneracionesT.getText()), numOrganismosS.getValue());
+                    AdministradorDeJuego.tablero.GenerarOrganismosRandom();
+                    AdministradorDeJuego.IniciarJuego();
+                }
+            });
 
-        JSlider numOrganismosS = new JSlider(0,50,50);
-        numOrganismosS.setMajorTickSpacing(10);
-        numOrganismosS.setPaintTicks(true);
-        numOrganismosS.setPaintLabels(true);
+            panel.add(numFilasL);
+            panel.add(numFilasT);
+            panel.add(numColumnasL);
+            panel.add(numColumnasT);
+            panel.add(numGeneracionesL);
+            panel.add(numGeneracionesT);
+            panel.add(numOrganismosL);
+            panel.add(numOrganismosS);
+            panel.add(next);
 
-        JButton next =  new JButton("Continuar");
-        next.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                AdministradorDeJuego.tablero = new Tablero(Integer.parseInt(numFilasT.getText()), Integer.parseInt(numColumnasT.getText()), Integer.parseInt(numGeneracionesT.getText()), numOrganismosS.getValue());
-                EjecutarAsistenteDeCoordenadas();
-                AdministradorDeJuego.IniciarJuego();
+            frame.setVisible(true);
+        }
+
+        private void ObtenerCoordenadas(){
+            for (int i = 0; i <  AdministradorDeJuego.tablero.NumeroDeCeldas; i++) {
+                JTextField xField = new JTextField(4);
+                JTextField yField = new JTextField(4);
+
+                JPanel myPanel = new JPanel();
+                myPanel.add(new JLabel("x:"));
+                myPanel.add(xField);
+                myPanel.add(Box.createHorizontalStrut(15)); // a spacer
+                myPanel.add(new JLabel("y:"));
+                myPanel.add(yField);
+
+                int result = JOptionPane.showConfirmDialog(null, myPanel,
+                        "Please Enter X and Y Values", JOptionPane.OK_CANCEL_OPTION);
+                if (result == JOptionPane.OK_OPTION) {
+                    System.out.println("Organismo " + i + " : x = " + xField.getText() + " y = " + yField.getText());
+                }
+                AdministradorDeJuego.tablero.celdas[Integer.parseInt(yField.getText())][Integer.parseInt(xField.getText())].accion = AccionCeldaSiguienteGen.Añadir;
             }
-        });
-
-        panel.add(numFilasL);
-        panel.add(numFilasT);
-        panel.add(numColumnasL);
-        panel.add(numColumnasT);
-        panel.add(numGeneracionesL);
-        panel.add(numGeneracionesT);
-        panel.add(numOrganismosL);
-        panel.add(numOrganismosS);
-        panel.add(next);
-
-        frame.setVisible(true);
-    }
-
-    private void EjecutarAsistenteDeCoordenadas() {
-
-        AdministradorDeJuego.tablero.GenerarOrganismosRandom();
-
-/*        for (int i = 0; i < Tablero.ObtenerNumeroDeOrganismos(); i++) {
-            JTextField xField = new JTextField(4);
-            JTextField yField = new JTextField(4);
-
-            JPanel myPanel = new JPanel();
-            myPanel.add(new JLabel("x:"));
-            myPanel.add(xField);
-            myPanel.add(Box.createHorizontalStrut(15)); // a spacer
-            myPanel.add(new JLabel("y:"));
-            myPanel.add(yField);
-
-            int result = JOptionPane.showConfirmDialog(null, myPanel,
-                    "Please Enter X and Y Values", JOptionPane.OK_CANCEL_OPTION);
-            if (result == JOptionPane.OK_OPTION) {
-                System.out.println("Organismo " + i + " : x = " + xField.getText() + " y = " + yField.getText());
-            }
-            AdministradorDeJuego.tablero.celdas[Integer.parseInt(yField.getText())][Integer.parseInt(xField.getText())].accion = AccionCeldaSiguienteGen.Añadir;
-        }*/
+        }
     }
 }

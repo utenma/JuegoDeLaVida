@@ -158,4 +158,14 @@ public class Tablero {
             celdas[fil][col].organismo = true;
         }
     }
+
+    public int NumeroDeOrganismos() {
+        int numeroDeOrganismos = 0;
+        for (byte f = 0; f < filas; f++) {
+            for (byte c = 0; c < columnas; c++) {
+                if (celdas[f][c].organismo) numeroDeOrganismos++;
+            }
+        }
+        return  numeroDeOrganismos;
+    }
 }
