@@ -14,7 +14,7 @@ class Configurador {
         int generaciones = LeerEntero();
         System.out.print("Porcentaje de Organismos Inicales (de 0 a 50) % : ");
         int porcentajeDeOrganismosIniciales = LeerEntero();
-        System.out.print("Generar Organismos automaticamente Sí: true , No: false ");
+        System.out.print("Generar Organismos Iniciales en posiciones random Sí: true , No: false ");
         Motor.organismosRandom = LeerBooleano();
         System.out.print("Marcar acciones en tablero: true , No: false ");
         Motor.marcar = LeerBooleano();
