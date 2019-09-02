@@ -5,14 +5,12 @@ public class AdministradorDeJuego {
     public static boolean debug = false;
     public static boolean marcar = true;
     static boolean organismosRandom = false;
-    static boolean configuradorGui = false;
 
     public static void main(String[] args) {
         System.out.println("Tecnologías de programación");
         System.out.println("Juego de la Vida de John H. Conway\n");
 
-        if (configuradorGui) new ConfiguradorGUI();
-        else try {
+      try {
             new ConfiguradorConsola();
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -22,10 +20,7 @@ public class AdministradorDeJuego {
     public static void GenerarTablero(int filas, int columnas, int generaciones, int porcentajeDeOrganismosIniciales){
         tablero = new Tablero(filas, columnas, generaciones, porcentajeDeOrganismosIniciales);
         if (organismosRandom) tablero.GenerarOrganismosRandom();
-        else {
-           if (configuradorGui) ConfiguradorGUI.ConfigurarCoordenadasDeOrganismosIniciales();
-            else ConfiguradorConsola.ConfigurarCoordenadasDeOrganismosIniciales();
-        }
+        else ConfiguradorConsola.ConfigurarCoordenadasDeOrganismosIniciales();
     }
 
     public static void IniciarJuego() {
