@@ -8,7 +8,7 @@ class Motor {
     static Tablero tablero;
     static final boolean debug = false;
     static final boolean marcar = true;
-    private static final boolean organismosRandom = false;
+    static boolean organismosRandom;
 
     public static void main(String[] args) {
         System.out.println("Tecnologías de programación");

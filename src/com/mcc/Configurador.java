@@ -14,23 +14,32 @@ class Configurador {
         int generaciones = LeerEntero();
         System.out.print("Porcentaje de Organismos Inicales (de 0 a 50) % : ");
         int porcentajeDeOrganismosIniciales = LeerEntero();
+        System.out.print("Generar Organismos automaticamente Sí: true , No: false ");
+        Motor.organismosRandom = LeerBooleano();
 
         Motor.GenerarTablero(filas, columnas, generaciones, porcentajeDeOrganismosIniciales);
         Motor.IniciarJuego();
     }
 
-    private static int LeerEntero() throws IOException {
-
+    private static boolean LeerBooleano(){
         Scanner sc = new Scanner(System.in);
+        boolean b = true;
+        try {
+            b = sc.nextBoolean();
+        } catch (Exception  e) {
+            System.out.println("Error de entrada -> generaran organismos random");
+        }
+        return b;
+    }
 
+    private static int LeerEntero() {
+        Scanner sc = new Scanner(System.in);
         int i = 0;
-
         try {
             i = sc.nextInt();
         } catch (NumberFormatException e) {
             System.err.println(e.getMessage());
         }
-
         return i;
     }
 
