@@ -9,7 +9,7 @@ class Tablero {
     public final Celda[][] celdas;
     final int filas;
     final int columnas;
-    public int generacion = 0;
+    public int generacion = 1;
     public final int numeroDeGeneraciones;
     private final int porcentajeInicialDeOrganismos;
     final int NumeroDeOrganismosIniciales;
