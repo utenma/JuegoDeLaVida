@@ -35,8 +35,8 @@ public class AdministradorDeJuego {
         }
         int numeroDeOrganismos = tablero.NumeroDeOrganismos();
         if (numeroDeOrganismos > 0)
-            System.out.println(Console.Color.GREEN + "Juego Ganado con " + numeroDeOrganismos + " organismos" + Console.Color.RESET);
-        else System.out.println(Console.Color.RED + "Juego Perdido" + Console.Color.RESET);
+            System.out.println(Consola.Color.GREEN + "Juego Ganado con " + numeroDeOrganismos + " organismos" + Consola.Color.RESET);
+        else System.out.println(Consola.Color.RED + "Juego Perdido" + Consola.Color.RESET);
         System.out.println("Juego Terminado");
     }
 }

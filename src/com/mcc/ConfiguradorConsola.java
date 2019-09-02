@@ -11,11 +11,11 @@ public class ConfiguradorConsola {
         System.out.print("Numero de Filas : ");
         int filas = LeerEntero();
         System.out.print("Numero de Columnas : ");
-        int  columnas = LeerEntero();
+        int columnas = LeerEntero();
         System.out.print("Numero de Generaciones : ");
-        int  generaciones = LeerEntero();
+        int generaciones = LeerEntero();
         System.out.print("Porcentaje de Organismos Inicales (de 0 a 50) % : ");
-        int  porcentajeDeOrganismosIniciales = LeerEntero();
+        int porcentajeDeOrganismosIniciales = LeerEntero();
 
         AdministradorDeJuego.GenerarTablero(filas, columnas, generaciones, porcentajeDeOrganismosIniciales);
         AdministradorDeJuego.IniciarJuego();
@@ -36,19 +36,30 @@ public class ConfiguradorConsola {
     }
 
     public static void ConfigurarCoordenadasDeOrganismosIniciales() {
-        for (int i = 1; i <=  AdministradorDeJuego.tablero.NumeroDeOrganismosIniciales; i++) {
+        for (int i = 1; i <= AdministradorDeJuego.tablero.NumeroDeOrganismosIniciales; i++) {
 
             int x = 0;
             int y = 0;
 
-            System.out.println("Organismo " + i );
-            System.out.print(" x = " ) ;
-            try {x = LeerEntero();} catch (Exception e) { System.out.println(e.getMessage());}
-            System.out.print(" y = " ) ;
-            try {y = LeerEntero();} catch (Exception e) { System.out.println(e.getMessage());}
-
+            do {
+                System.out.println("Organismo " + i);
+                System.out.print(" x = ");
+                try {
+                    x = LeerEntero();
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
+                System.out.print(" y = ");
+                try {
+                    y = LeerEntero();
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
+                if(AdministradorDeJuego.tablero.celdas[x][y].organismo == true)
+                    System.out.println("La celda [" + x + "][" + y + "] ya tien organismo.\nReiniciando proceso para organismo " + i );
+            } while (AdministradorDeJuego.tablero.celdas[x][y].organismo == true);
             AdministradorDeJuego.tablero.celdas[x][y].organismo = true;
-            }
         }
     }
+}
 

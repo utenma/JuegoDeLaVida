@@ -60,9 +60,9 @@ public class Tablero {
                             if (AdministradorDeJuego.debug) {
                                 System.out.print("Vecino [" + X + "][" + Y + "] = ");
                                 if (celdas[X][Y].organismo)
-                                    System.out.println(Console.Color.GREEN + celdas[X][Y].organismo + Console.Color.RESET);
+                                    System.out.println(Consola.Color.GREEN + celdas[X][Y].organismo + Consola.Color.RESET);
                                 else
-                                    System.out.println(Console.Color.RED + celdas[X][Y].organismo + Console.Color.RESET);
+                                    System.out.println(Consola.Color.RED + celdas[X][Y].organismo + Consola.Color.RESET);
                             }
                             if (celdas[X][Y].organismo == true) vecinos++;
                         } catch (Exception e) {
@@ -125,20 +125,20 @@ public class Tablero {
             for (int c = 0; c < celdas[f].length; c++) {
                 System.out.print("|");
                 String caracter ;
-                String color = Console.Color.BLUE;
+                String color = Consola.Color.BLUE;
                 if (celdas[f][c].organismo) {
                     caracter = "*";
-                    if(AdministradorDeJuego.marcar) { if (celdas[f][c].accion == AccionCeldaSiguienteGen.Eliminar) color = Console.Color.RED;}
+                    if(AdministradorDeJuego.marcar) { if (celdas[f][c].accion == AccionCeldaSiguienteGen.Eliminar) color = Consola.Color.RED;}
                 }
                 else {
                     if (AdministradorDeJuego.marcar) {
                         if (celdas[f][c].accion == AccionCeldaSiguienteGen.Añadir) {
-                            color = Console.Color.WHITE;
+                            color = Consola.Color.WHITE;
                             caracter = "¤";
                         } else caracter = " ";
                     } else caracter = " ";
                 }
-                System.out.print(color + caracter + Console.Color.RESET);
+                System.out.print(color + caracter + Consola.Color.RESET);
             }
             System.out.print("|");
         }
