@@ -77,7 +77,7 @@ public class ConfiguradorGUI {
             if (result == JOptionPane.OK_OPTION) {
                 System.out.println("Organismo " + i + " : x = " + xField.getText() + " y = " + yField.getText());
             }
-            AdministradorDeJuego.tablero.celdas[Integer.parseInt(yField.getText())][Integer.parseInt(xField.getText())].accion = Accion.Añadir;
+            AdministradorDeJuego.tablero.celdas[Integer.parseInt(yField.getText())][Integer.parseInt(xField.getText())].accion = AccionCeldaSiguienteGen.Añadir;
         }
     }
 }
