@@ -4,10 +4,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class ConfiguradorConsola {
-    public ConfiguradorConsola() throws IOException {
+class ConfiguradorConsola {
+    ConfiguradorConsola() throws IOException {
 
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         System.out.print("Numero de Filas : ");
         int filas = LeerEntero();
         System.out.print("Numero de Columnas : ");
@@ -35,7 +34,7 @@ public class ConfiguradorConsola {
         return i;
     }
 
-    public static void ConfigurarCoordenadasDeOrganismosIniciales() {
+    static void ConfigurarCoordenadasDeOrganismosIniciales() {
         for (int i = 1; i <= AdministradorDeJuego.tablero.NumeroDeOrganismosIniciales; i++) {
 
             int x = 0;
@@ -44,20 +43,42 @@ public class ConfiguradorConsola {
             do {
                 System.out.println("Organismo " + i);
                 System.out.print(" x = ");
+
                 try {
                     x = LeerEntero();
                 } catch (Exception e) {
                     System.out.println(e.getMessage());
                 }
+                if (x >= AdministradorDeJuego.tablero.filas) {
+                    x = AdministradorDeJuego.tablero.filas - 1;
+                    System.out.println("x -> " + x);
+                }
+                else if (x < 0) {
+                    x = 0;
+                    System.out.println("x -> " + x);
+                }
+
+
                 System.out.print(" y = ");
                 try {
                     y = LeerEntero();
                 } catch (Exception e) {
                     System.out.println(e.getMessage());
                 }
-                if(AdministradorDeJuego.tablero.celdas[x][y].organismo == true)
-                    System.out.println("La celda [" + x + "][" + y + "] ya tien organismo.\nReiniciando proceso para organismo " + i );
-            } while (AdministradorDeJuego.tablero.celdas[x][y].organismo == true);
+
+                if (y >= AdministradorDeJuego.tablero.columnas) {
+                    y = AdministradorDeJuego.tablero.columnas - 1;
+                    System.out.println("y -> " + y);
+                }
+                else if (y < 0) {
+                    y = 0;
+                    System.out.println("y -> " + y);
+                }
+
+                if (AdministradorDeJuego.tablero.celdas[x][y].organismo)
+                    System.out.println("La celda [" + x + "][" + y + "] ya tien organismo.\nReiniciando proceso para organismo inicial " + i);
+            } while (AdministradorDeJuego.tablero.celdas[x][y].organismo);
+
             AdministradorDeJuego.tablero.celdas[x][y].organismo = true;
         }
     }

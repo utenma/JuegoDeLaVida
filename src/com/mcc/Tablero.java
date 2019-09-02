@@ -2,16 +2,16 @@ package com.mcc;
 
 import java.util.Random;
 
-public class Tablero {
+class Tablero {
 
-    public Celda[][] celdas;
-    int filas;
-    int columnas;
+    public final Celda[][] celdas;
+    final int filas;
+    final int columnas;
     public int generacion = 0;
-    public int numeroDeGeneraciones;
-    int porcentajeInicialDeOrganismos = 0;
-    int NumeroDeOrganismosIniciales = 0;
-    int NumeroDeCeldas = 0;
+    public final int numeroDeGeneraciones;
+    private final int porcentajeInicialDeOrganismos;
+    final int NumeroDeOrganismosIniciales;
+    private final int NumeroDeCeldas;
 
     public Tablero(int numFilas, int numColumnas, int numGeneraciones, int porOrganismos) {
 
@@ -29,8 +29,6 @@ public class Tablero {
                 celdas[f][c] = new Celda();
             }
         }
-
-        if (AdministradorDeJuego.debug || true) {
             System.out.println("---------------------------------------------------------");
             System.out.println("Tablero inicializado con " +
                     filas + " filas y " + columnas + " columnas = " +
@@ -41,10 +39,10 @@ public class Tablero {
                     " % " + " = " + (porOrganismos * filas * columnas) / 100f
                     + " -> " + NumeroDeOrganismosIniciales);
             System.out.println("---------------------------------------------------------");
-        }
+
     }
 
-    AccionCeldaSiguienteGen ChecarPorVecinos(byte x, byte y) {
+    private AccionCeldaSiguienteGen ChecarPorVecinos(byte x, byte y) {
         byte vecinos = 0;
 
         if (AdministradorDeJuego.debug) System.out.println("-----------------------------------------------------");
@@ -64,7 +62,7 @@ public class Tablero {
                                 else
                                     System.out.println(Consola.Color.RED + celdas[X][Y].organismo + Consola.Color.RESET);
                             }
-                            if (celdas[X][Y].organismo == true) vecinos++;
+                            if (celdas[X][Y].organismo) vecinos++;
                         } catch (Exception e) {
                             if (AdministradorDeJuego.debug)
                                 System.out.println("Excepción para Celda [" + X + "][" + Y + "]");
@@ -101,8 +99,8 @@ public class Tablero {
         if (AdministradorDeJuego.debug) System.out.println("----------------");
         if (AdministradorDeJuego.debug) System.out.println("Aplicar Acciones");
         if (AdministradorDeJuego.debug) System.out.println("----------------");
-        for (int f = 0; f < celdas.length; f++) {
-            for (int c = 0; c < celdas[f].length; c++) {
+        for (int f = 0; f < filas; f++) {
+            for (int c = 0; c < columnas; c++) {
                 if (celdas[f][c].accion == AccionCeldaSiguienteGen.Añadir) celdas[f][c].organismo = true;
                 if (celdas[f][c].accion == AccionCeldaSiguienteGen.Eliminar) celdas[f][c].organismo = false;
             }
@@ -154,7 +152,7 @@ public class Tablero {
             do {
                 fil = random.nextInt(filas);
                 col = random.nextInt(columnas);
-            } while (celdas[fil][col].organismo == true);
+            } while (celdas[fil][col].organismo);
 
             celdas[fil][col].organismo = true;
         }
