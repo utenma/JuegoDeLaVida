@@ -2,6 +2,8 @@ package com.mcc;
 
 import com.util.Consola;
 
+import java.util.Scanner;
+
 class Motor {
     static Tablero tablero;
     static final boolean debug = false;
@@ -26,14 +28,17 @@ class Motor {
     }
 
     public static void IniciarJuego() {
+        Scanner sc = new Scanner(System.in);
         tablero.CalcularAcciones();
         tablero.MostrarCeldas();
+        System.out.print("Esperando enter ->");sc.nextLine();
         while (tablero.generacion < tablero.numeroDeGeneraciones) {
             tablero.AplicarAcciones();
             tablero.CalcularAcciones();
             tablero.MostrarCeldas();
             if(!tablero.HayAcciones()) break;
             if (tablero.NumeroDeOrganismos() == 0) break;
+            System.out.print("Presione enter ->");sc.nextLine();
         }
         int numeroDeOrganismos = tablero.NumeroDeOrganismos();
         if (numeroDeOrganismos > 0)
