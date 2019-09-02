@@ -30,7 +30,7 @@ public class Tablero {
             }
         }
 
-        if (AdministradorDeJuego.debug) {
+        if (AdministradorDeJuego.debug || true) {
             System.out.println("---------------------------------------------------------");
             System.out.println("Tablero inicializado con " +
                     filas + " filas y " + columnas + " columnas = " +
@@ -168,5 +168,14 @@ public class Tablero {
             }
         }
         return  numeroDeOrganismos;
+    }
+
+    public boolean HayAcciones(){
+        for (byte f = 0; f < filas; f++) {
+            for (byte c = 0; c < columnas; c++) {
+                if (celdas[f][c].accion != AccionCeldaSiguienteGen.Ninguna) return true;
+            }
+        }
+        return  false;
     }
 }

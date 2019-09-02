@@ -7,12 +7,10 @@ import java.awt.event.ActionListener;
 public class ConfiguradorGUI {
 
     public ConfiguradorGUI() {
-        ConfiguracionInicial configuracionInicial = new ConfiguracionInicial();
-        configuracionInicial.Ejecutar();
+        ConfiguracionInicial();
     }
 
-    public class ConfiguracionInicial {
-        public void Ejecutar(){
+        public void ConfiguracionInicial(){
             JFrame frame = new JFrame();
             frame.setTitle("Juego de La Vida Configuracion Inicial");
             frame.setBounds(10,20,300,300);
@@ -38,9 +36,7 @@ public class ConfiguradorGUI {
             next.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    AdministradorDeJuego.tablero = new Tablero(Integer.parseInt(numFilasT.getText()), Integer.parseInt(numColumnasT.getText()), Integer.parseInt(numGeneracionesT.getText()), numOrganismosS.getValue());
-                    if (AdministradorDeJuego.organismosRandom) AdministradorDeJuego.tablero.GenerarOrganismosRandom();
-                    else ObtenerCoordenadasOrganismos();
+                    AdministradorDeJuego.GenerarTablero(Integer.parseInt(numFilasT.getText()), Integer.parseInt(numColumnasT.getText()), Integer.parseInt(numGeneracionesT.getText()), numOrganismosS.getValue());
                     AdministradorDeJuego.IniciarJuego();
                 }
             });
@@ -58,25 +54,24 @@ public class ConfiguradorGUI {
             frame.setVisible(true);
         }
 
-        private void ObtenerCoordenadasOrganismos(){
-            for (int i = 0; i <  AdministradorDeJuego.tablero.NumeroDeOrganismosIniciales; i++) {
-                JTextField xField = new JTextField(4);
-                JTextField yField = new JTextField(4);
+    public static void ConfigurarCoordenadasDeOrganismosIniciales(){
+        for (int i = 1; i <=  AdministradorDeJuego.tablero.NumeroDeOrganismosIniciales; i++) {
+            JTextField xField = new JTextField(4);
+            JTextField yField = new JTextField(4);
 
-                JPanel myPanel = new JPanel();
-                myPanel.add(new JLabel("x:"));
-                myPanel.add(xField);
-                myPanel.add(Box.createHorizontalStrut(15)); // a spacer
-                myPanel.add(new JLabel("y:"));
-                myPanel.add(yField);
+            JPanel myPanel = new JPanel();
+            myPanel.add(new JLabel("x:"));
+            myPanel.add(xField);
+            myPanel.add(Box.createHorizontalStrut(15)); // a spacer
+            myPanel.add(new JLabel("y:"));
+            myPanel.add(yField);
 
-                int result = JOptionPane.showConfirmDialog(null, myPanel,
-                        "Please Enter X and Y Values", JOptionPane.OK_CANCEL_OPTION);
-                if (result == JOptionPane.OK_OPTION) {
-                    System.out.println("Organismo " + i + " : x = " + xField.getText() + " y = " + yField.getText());
-                }
-                AdministradorDeJuego.tablero.celdas[Integer.parseInt(yField.getText())][Integer.parseInt(xField.getText())].organismo = true;
+            int result = JOptionPane.showConfirmDialog(null, myPanel,
+                    "Please Enter X and Y Values", JOptionPane.OK_CANCEL_OPTION);
+            if (result == JOptionPane.OK_OPTION) {
+                System.out.println("Organismo " + i + " : x = " + xField.getText() + " y = " + yField.getText());
             }
+            AdministradorDeJuego.tablero.celdas[Integer.parseInt(yField.getText())][Integer.parseInt(xField.getText())].organismo = true;
         }
     }
 }
