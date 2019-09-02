@@ -1,11 +1,11 @@
 # JuegoDeLaVida
 
-Implementación en java del popular juego de la Vida de Jonh Conway
-
--------------
+Implementación en java del popular juego de la Vida de John Horton Conway.
+---------
 
 Este proyecto contiene 3 secciones
+---------
 
 UML
-Codigi
+Codigo Java
 Ejecutable
