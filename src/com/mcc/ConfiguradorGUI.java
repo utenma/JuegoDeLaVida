@@ -11,9 +11,7 @@ public class ConfiguradorGUI {
     }
 
     private void EjecutarConfiguradorGeneral(){
-        System.out.println("Maestría en Ciencias de la Computación");
-        System.out.println("Tecnologías de Programación");
-        System.out.println("Juego de la Vida de John H. Conway\n");
+
 
         JFrame frame = new JFrame();
         frame.setTitle("Juego de La Vida Configuracion Inicial");
@@ -61,7 +59,14 @@ public class ConfiguradorGUI {
 
     private void EjecutarAsistenteDeCoordenadas() {
 
-        for (int i = 0; i < Tablero.ObtenerNumeroDeOrganismos(); i++) {
+        AdministradorDeJuego.tablero.celdas[0][0].organismo = true;
+        AdministradorDeJuego.tablero.celdas[0][1].organismo = true;
+        AdministradorDeJuego.tablero.celdas[1][0].organismo = true;
+        AdministradorDeJuego.tablero.celdas[1][2].organismo = true;
+        AdministradorDeJuego.tablero.celdas[2][3].organismo = true;
+
+
+/*        for (int i = 0; i < Tablero.ObtenerNumeroDeOrganismos(); i++) {
             JTextField xField = new JTextField(4);
             JTextField yField = new JTextField(4);
 
@@ -78,6 +83,6 @@ public class ConfiguradorGUI {
                 System.out.println("Organismo " + i + " : x = " + xField.getText() + " y = " + yField.getText());
             }
             AdministradorDeJuego.tablero.celdas[Integer.parseInt(yField.getText())][Integer.parseInt(xField.getText())].accion = AccionCeldaSiguienteGen.Añadir;
-        }
+        }*/
     }
 }
