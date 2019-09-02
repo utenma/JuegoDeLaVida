@@ -1,10 +1,12 @@
 package com.mcc;
 
+import com.util.Consola;
+
 class AdministradorDeJuego {
     static Tablero tablero;
     static final boolean debug = false;
     static final boolean marcar = true;
-    private static final boolean organismosRandom = false;
+    private static final boolean organismosRandom = true;
 
     public static void main(String[] args) {
         System.out.println("Tecnologías de programación");

@@ -1,5 +1,7 @@
 package com.mcc;
 
+import com.util.Consola;
+
 import java.util.Random;
 
 class Tablero {

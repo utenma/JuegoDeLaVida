@@ -1,7 +1,7 @@
-package com.mcc;
+package com.util;
 
-class Consola {
-    static class Color {
+public class Consola {
+    public static class Color {
         // Reset
         public static final String RESET = "\033[0m";  // Text Reset
 
