@@ -25,11 +25,11 @@ public class ConfiguradorGUI {
         JLabel numColumnasL = new JLabel("Numero de Columnas :");
         JLabel numGeneracionesL = new JLabel("Numero de Generaciones :");
         JLabel numOrganismosL = new JLabel("<html>Numero de<br>Organismos %</html>");
-        JTextField numFilasT = new  JTextField("4");
-        JTextField numColumnasT = new  JTextField("4");
+        JTextField numFilasT = new  JTextField("6");
+        JTextField numColumnasT = new  JTextField("6");
         JTextField numGeneracionesT = new  JTextField("10");
 
-        JSlider numOrganismosS = new JSlider(0,50,25);
+        JSlider numOrganismosS = new JSlider(0,50,50);
         numOrganismosS.setMajorTickSpacing(10);
         numOrganismosS.setPaintTicks(true);
         numOrganismosS.setPaintLabels(true);
@@ -59,12 +59,7 @@ public class ConfiguradorGUI {
 
     private void EjecutarAsistenteDeCoordenadas() {
 
-        AdministradorDeJuego.tablero.celdas[0][0].organismo = true;
-        AdministradorDeJuego.tablero.celdas[0][1].organismo = true;
-        AdministradorDeJuego.tablero.celdas[1][0].organismo = true;
-        AdministradorDeJuego.tablero.celdas[1][2].organismo = true;
-        AdministradorDeJuego.tablero.celdas[2][3].organismo = true;
-
+        AdministradorDeJuego.tablero.GenerarOrganismosRandom();
 
 /*        for (int i = 0; i < Tablero.ObtenerNumeroDeOrganismos(); i++) {
             JTextField xField = new JTextField(4);
