@@ -1,5 +1,5 @@
 package com.mcc;
 
-public enum AccionCeldaSiguienteGeneracion {
+public enum AccionDeCelda {
     Añadir, Eliminar, Ninguna
 }

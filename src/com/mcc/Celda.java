@@ -1,11 +1,16 @@
 package com.mcc;
 
 public class Celda {
-    AccionCeldaSiguienteGeneracion accion;
-    Boolean organismo ;
+    private AccionDeCelda accion;
+    private boolean organismo;
 
     public Celda() {
         organismo = false;
-        accion =  AccionCeldaSiguienteGeneracion.Ninguna;
+        accion = AccionDeCelda.Ninguna;
     }
+
+    AccionDeCelda getAccion() { return accion; }
+    void setAccion(AccionDeCelda accion) { this.accion = accion; }
+    boolean getOrganismo() { return organismo; }
+    void setOrganismo(boolean organismo) { this.organismo = organismo; }
 }

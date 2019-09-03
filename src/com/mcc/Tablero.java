@@ -7,16 +7,15 @@ import java.util.Random;
 class Tablero {
 
     public final Celda[][] celdas;
-    final int filas;
-    final int columnas;
-    public int generacion = 1;
-    public final int numeroDeGeneraciones;
+    private final int filas;
+    private final int columnas;
+    private final int numeroDeGeneraciones;
     private final int porcentajeInicialDeOrganismos;
-    final int NumeroDeOrganismosIniciales;
+    private final int NumeroDeOrganismosIniciales;
     private final int NumeroDeCeldas;
+    private int generacion = 1;
 
     public Tablero(int numFilas, int numColumnas, int numGeneraciones, int porOrganismos) {
-
         filas = numFilas;
         columnas = numColumnas;
         NumeroDeCeldas = filas * columnas;
@@ -41,14 +40,22 @@ class Tablero {
                     " % " + " = " + (porOrganismos * filas * columnas) / 100f
                     + " -> " + NumeroDeOrganismosIniciales);
             System.out.println("---------------------------------------------------------");
-
     }
 
-    private AccionCeldaSiguienteGeneracion ChecarPorVecinos(byte x, byte y) {
-        byte vecinos = 0;
+    int getNumeroDeFilas(){ return filas; }
+    int getNumeroDeColumnas(){ return columnas; }
+    int getGeneracionActual(){ return generacion;}
+    int getNumeroDeGeneraciones(){ return numeroDeGeneraciones;}
+    int getNumeroDeOrganismosIniciales(){ return NumeroDeOrganismosIniciales;}
 
-        if (Motor.debug) System.out.println("-----------------------------------------------------");
-        if (Motor.debug) System.out.println("Revisión de vecinos para celda [" + x + "][" + y + "]");
+    private AccionDeCelda checarPorVecinos(byte x, byte y) {
+
+        if (Motor.getDebug()) {
+            System.out.println("-----------------------------------------------------");
+            System.out.println("Revisión de vecinos para celda [" + x + "][" + y + "]");
+        }
+
+        byte vecinos = 0;
         for (int f = -1; f <= 1; f++) {
             int X = x + f;
             if (X >= 0 && X < filas) {
@@ -57,54 +64,54 @@ class Tablero {
                     int Y = y + c;
                     if (Y >= 0 && Y < columnas) {
                         try {
-                            if (Motor.debug) {
+                            if (Motor.getDebug()) {
                                 System.out.print("Vecino [" + X + "][" + Y + "] = ");
-                                if (celdas[X][Y].organismo)
-                                    System.out.println(Consola.Color.GREEN + celdas[X][Y].organismo + Consola.Color.RESET);
+                                if (celdas[X][Y].getOrganismo())
+                                    System.out.println(Consola.Color.GREEN + celdas[X][Y].getOrganismo() + Consola.Color.RESET);
                                 else
-                                    System.out.println(Consola.Color.RED + celdas[X][Y].organismo + Consola.Color.RESET);
+                                    System.out.println(Consola.Color.RED + celdas[X][Y].getOrganismo() + Consola.Color.RESET);
                             }
-                            if (celdas[X][Y].organismo) vecinos++;
+                            if (celdas[X][Y].getOrganismo()) vecinos++;
                         } catch (Exception e) {
-                            if (Motor.debug)
+                            if (Motor.getDebug())
                                 System.out.println("Excepción para Celda [" + X + "][" + Y + "]");
-                            if (Motor.debug) System.out.println(e.getMessage());
+                            if (Motor.getDebug()) System.out.println(e.getMessage());
                         }
                     }
                 }
             }
         }
-        if (Motor.debug)
+        if (Motor.getDebug())
             System.out.println("Resultado de revisión de vecinos para celda [" + x + "][" + y + "] = " + vecinos + " Vecinos");
-        if (celdas[x][y].organismo) {
-            if (vecinos < 2) return AccionCeldaSiguienteGeneracion.Eliminar;
-            else if (vecinos == 2 || vecinos == 3) return AccionCeldaSiguienteGeneracion.Ninguna;
-            else if (vecinos > 3) return AccionCeldaSiguienteGeneracion.Eliminar;
-        } else if (vecinos == 3) return AccionCeldaSiguienteGeneracion.Añadir;
+        if (celdas[x][y].getOrganismo()) {
+            if (vecinos < 2) return AccionDeCelda.Eliminar;
+            else if (vecinos == 2 || vecinos == 3) return AccionDeCelda.Ninguna;
+            else if (vecinos > 3) return AccionDeCelda.Eliminar;
+        } else if (vecinos == 3) return AccionDeCelda.Añadir;
 
-        return AccionCeldaSiguienteGeneracion.Ninguna;
+        return AccionDeCelda.Ninguna;
     }
 
-    public void CalcularAcciones() {
+    public void calcularAcciones() {
         for (byte f = 0; f < celdas.length; f++) {
             for (byte c = 0; c < celdas[f].length; c++) {
-                celdas[f][c].accion = ChecarPorVecinos(f, c);
+                celdas[f][c].setAccion(checarPorVecinos(f, c));
             }
         }
-        if (Motor.debug) System.out.println("-----------------------------------------------------");
+        if (Motor.getDebug()) System.out.println("-----------------------------------------------------");
     }
 
-    public void AplicarAcciones() {
+    public void aplicarAcciones() {
         for (int f = 0; f < filas; f++) {
             for (int c = 0; c < columnas; c++) {
-                if (celdas[f][c].accion == AccionCeldaSiguienteGeneracion.Añadir) celdas[f][c].organismo = true;
-                if (celdas[f][c].accion == AccionCeldaSiguienteGeneracion.Eliminar) celdas[f][c].organismo = false;
+                if (celdas[f][c].getAccion() == AccionDeCelda.Añadir) celdas[f][c].setOrganismo(true);
+                if (celdas[f][c].getAccion() == AccionDeCelda.Eliminar) celdas[f][c].setOrganismo(false);
             }
         }
         generacion++;
     }
 
-    public void MostrarCeldas() {
+    public void mostrarCeldas() {
         System.out.println("Tablero Generacion " + generacion);
         System.out.print(" ");
         for (int c = 0; c < columnas; c++) {
@@ -119,13 +126,13 @@ class Tablero {
                 System.out.print("|");
                 String caracter ;
                 String color = Consola.Color.BLUE;
-                if (celdas[f][c].organismo) {
+                if (celdas[f][c].getOrganismo()) {
                     caracter = "*";
-                    if(Motor.marcar) { if (celdas[f][c].accion == AccionCeldaSiguienteGeneracion.Eliminar) color = Consola.Color.RED;}
+                    if(Motor.getMarcar()) { if (celdas[f][c].getAccion() == AccionDeCelda.Eliminar) color = Consola.Color.RED;}
                 }
                 else {
-                    if (Motor.marcar) {
-                        if (celdas[f][c].accion == AccionCeldaSiguienteGeneracion.Añadir) {
+                    if (Motor.getMarcar()) {
+                        if (celdas[f][c].getAccion() == AccionDeCelda.Añadir) {
                             color = Consola.Color.WHITE;
                             caracter = "¤";
                         } else caracter = " ";
@@ -138,35 +145,33 @@ class Tablero {
         System.out.println();
     }
 
-    public void GenerarOrganismosRandom() {
+    public void generarOrganismosRandom() {
         Random random = new Random();
-
         for (int i = 0; i < NumeroDeOrganismosIniciales; i++) {
             int fil;
             int col;
             do {
                 fil = random.nextInt(filas);
                 col = random.nextInt(columnas);
-            } while (celdas[fil][col].organismo);
-
-            celdas[fil][col].organismo = true;
+            } while (celdas[fil][col].getOrganismo());
+            celdas[fil][col].setOrganismo(true);
         }
     }
 
-    public int NumeroDeOrganismos() {
+    public int numeroDeOrganismos() {
         int numeroDeOrganismos = 0;
         for (byte f = 0; f < filas; f++) {
             for (byte c = 0; c < columnas; c++) {
-                if (celdas[f][c].organismo) numeroDeOrganismos++;
+                if (celdas[f][c].getOrganismo()) numeroDeOrganismos++;
             }
         }
         return  numeroDeOrganismos;
     }
 
-    public boolean HayAcciones(){
+    public boolean hayAcciones(){
         for (byte f = 0; f < filas; f++) {
             for (byte c = 0; c < columnas; c++) {
-                if (celdas[f][c].accion != AccionCeldaSiguienteGeneracion.Ninguna) return true;
+                if (celdas[f][c].getAccion() != AccionDeCelda.Ninguna) return true;
             }
         }
         return  false;
