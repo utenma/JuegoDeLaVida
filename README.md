@@ -2,10 +2,10 @@
 
 Implementación en java del popular juego de la Vida de John Horton Conway.
 ---------
-
-Este proyecto contiene 3 secciones
+El proyecto contiene 2 elementos importantes descritos a continuación :
 ---------
+Diagrama UML -> UML Juego de la vida.png
+Carpeta de codigo fuente -> src/com
 
-UML
-Codigo Java
-Ejecutable
+Este proyecto fue generado en el IDE JetBrains IntelliJ
+---------
