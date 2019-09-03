@@ -6,8 +6,6 @@ import java.util.Scanner;
 
 class Motor {
     private static Tablero tablero;
-
-    private static boolean organismosRandom;
     private static boolean marcar = true;
     private static boolean debug = false;
 
@@ -45,7 +43,7 @@ class Motor {
         if (porcentajeDeOrganismosIniciales < 1) porcentajeDeOrganismosIniciales = 1;
         else if (porcentajeDeOrganismosIniciales > 50) porcentajeDeOrganismosIniciales = 50;
         System.out.print("Generar organismos iniciales en posiciones random Sí: true , No: false ");
-        organismosRandom = leerBooleano();
+        boolean organismosRandom = leerBooleano();
         System.out.print("Marcar acciones en tablero: true , No: false ");
         marcar = leerBooleano();
         System.out.print("Mostrar impresión de conteo de vecinos Sí: true , No: false ");
