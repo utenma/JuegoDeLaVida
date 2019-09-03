@@ -6,24 +6,21 @@ import java.util.Random;
 
 class Tablero {
 
-    public final Celda[][] celdas;
+    private final Celda[][] celdas;
     private final int filas;
     private final int columnas;
     private final int numeroDeGeneraciones;
-    private final int porcentajeInicialDeOrganismos;
-    private final int NumeroDeOrganismosIniciales;
-    private final int NumeroDeCeldas;
+    private final int numeroDeOrganismosIniciales;
     private int generacion = 1;
 
     public Tablero(int numFilas, int numColumnas, int numGeneraciones, int porOrganismos) {
         filas = numFilas;
         columnas = numColumnas;
-        NumeroDeCeldas = filas * columnas;
+        int numeroDeCeldas = filas * columnas;
 
         celdas = new Celda[numFilas][numColumnas];
         numeroDeGeneraciones = numGeneraciones;
-        porcentajeInicialDeOrganismos = porOrganismos;
-        NumeroDeOrganismosIniciales = Math.round((porcentajeInicialDeOrganismos * filas * columnas) / 100f);
+        numeroDeOrganismosIniciales = Math.round((porOrganismos * filas * columnas) / 100f);
 
         for (int f = 0; f < celdas.length; f++) {
             for (int c = 0; c < celdas[f].length; c++) {
@@ -33,20 +30,21 @@ class Tablero {
             System.out.println("---------------------------------------------------------");
             System.out.println("Tablero inicializado con " +
                     filas + " filas y " + columnas + " columnas = " +
-                    NumeroDeCeldas + " celdas");
+                    numeroDeCeldas + " celdas");
 
             System.out.println("Cantidad de organismos iniciales = " +
-                    NumeroDeCeldas + " x " + porOrganismos +
+                    numeroDeCeldas + " x " + porOrganismos +
                     " % " + " = " + (porOrganismos * filas * columnas) / 100f
-                    + " -> " + NumeroDeOrganismosIniciales);
+                    + " -> " + numeroDeOrganismosIniciales);
             System.out.println("---------------------------------------------------------");
     }
 
-    int getNumeroDeFilas(){ return filas; }
-    int getNumeroDeColumnas(){ return columnas; }
-    int getGeneracionActual(){ return generacion;}
-    int getNumeroDeGeneraciones(){ return numeroDeGeneraciones;}
-    int getNumeroDeOrganismosIniciales(){ return NumeroDeOrganismosIniciales;}
+    int getNumeroDeFilas() { return filas; }
+    int getNumeroDeColumnas() { return columnas; }
+    int getGeneracionActual() { return generacion; }
+    int getNumeroDeGeneraciones() { return numeroDeGeneraciones; }
+    int getNumeroDeOrganismosIniciales() { return numeroDeOrganismosIniciales; }
+    Celda[][] getCeldas() { return celdas; }
 
     private AccionDeCelda checarPorVecinos(byte x, byte y) {
 
@@ -86,8 +84,8 @@ class Tablero {
         if (celdas[x][y].getOrganismo()) {
             if (vecinos < 2) return AccionDeCelda.Eliminar;
             else if (vecinos == 2 || vecinos == 3) return AccionDeCelda.Ninguna;
-            else if (vecinos > 3) return AccionDeCelda.Eliminar;
-        } else if (vecinos == 3) return AccionDeCelda.Añadir;
+            else return AccionDeCelda.Eliminar; //Vecinos > 3
+        } else if (vecinos == 3) return AccionDeCelda.Agregar;
 
         return AccionDeCelda.Ninguna;
     }
@@ -104,7 +102,7 @@ class Tablero {
     public void aplicarAcciones() {
         for (int f = 0; f < filas; f++) {
             for (int c = 0; c < columnas; c++) {
-                if (celdas[f][c].getAccion() == AccionDeCelda.Añadir) celdas[f][c].setOrganismo(true);
+                if (celdas[f][c].getAccion() == AccionDeCelda.Agregar) celdas[f][c].setOrganismo(true);
                 if (celdas[f][c].getAccion() == AccionDeCelda.Eliminar) celdas[f][c].setOrganismo(false);
             }
         }
@@ -132,7 +130,7 @@ class Tablero {
                 }
                 else {
                     if (Motor.getMarcar()) {
-                        if (celdas[f][c].getAccion() == AccionDeCelda.Añadir) {
+                        if (celdas[f][c].getAccion() == AccionDeCelda.Agregar) {
                             color = Consola.Color.WHITE;
                             caracter = "¤";
                         } else caracter = " ";
@@ -147,7 +145,7 @@ class Tablero {
 
     public void generarOrganismosRandom() {
         Random random = new Random();
-        for (int i = 0; i < NumeroDeOrganismosIniciales; i++) {
+        for (int i = 0; i < numeroDeOrganismosIniciales; i++) {
             int fil;
             int col;
             do {

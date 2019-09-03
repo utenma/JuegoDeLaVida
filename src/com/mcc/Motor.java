@@ -1,8 +1,6 @@
 package com.mcc;
 
 import com.util.Consola;
-
-import java.io.IOException;
 import java.util.Scanner;
 
 class Motor {
@@ -23,18 +21,17 @@ class Motor {
         }
     }
 
-    static boolean getMarcar(){return marcar;}
-    static boolean getDebug(){return debug;}
-
-    private static void configurar() throws IOException {
+    private static void configurar() {
         System.out.print("Numero de Filas : ");
         int filas = leerEntero();
         System.out.print("Numero de Columnas : ");
         int columnas = leerEntero();
         System.out.print("Numero de Generaciones : ");
         int generaciones = leerEntero();
-        System.out.print("Porcentaje de Organismos Inicales (de 0 a 50) % : ");
+        System.out.print("Porcentaje de Organismos Inicales (de 1 a 50) % : ");
         int porcentajeDeOrganismosIniciales = leerEntero();
+        if ( porcentajeDeOrganismosIniciales < 1 ) porcentajeDeOrganismosIniciales = 1;
+        else if( porcentajeDeOrganismosIniciales > 50 ) porcentajeDeOrganismosIniciales = 50;
         System.out.print("Generar Organismos Iniciales en posiciones random Sí: true , No: false ");
         organismosRandom = leerBooleano();
         System.out.print("Marcar acciones en tablero: true , No: false ");
@@ -46,14 +43,14 @@ class Motor {
         iniciarJuego();
     }
 
-    public static void generarTablero(int filas, int columnas, int generaciones, int porcentajeDeOrganismosIniciales){
+    private static void generarTablero(int filas, int columnas, int generaciones, int porcentajeDeOrganismosIniciales){
         tablero = new Tablero(filas, columnas, generaciones, porcentajeDeOrganismosIniciales);
         if (organismosRandom) tablero.generarOrganismosRandom();
         else configurarCoordenadasDeOrganismosIniciales();
     }
 
-    //Famoso GameLoop
-    public static void iniciarJuego() {
+    ///Famoso GameLoop
+     private static void iniciarJuego() {
         Scanner sc = new Scanner(System.in);
         tablero.calcularAcciones();
         tablero.mostrarCeldas();
@@ -95,7 +92,7 @@ class Motor {
         return i;
     }
 
-    static void configurarCoordenadasDeOrganismosIniciales() {
+    private static void configurarCoordenadasDeOrganismosIniciales() {
         for (int i = 1; i <= tablero.getNumeroDeOrganismosIniciales(); i++) {
 
             int x = 0;
@@ -133,11 +130,19 @@ class Motor {
                     System.out.println("y -> " + y);
                 }
 
-                if (tablero.celdas[x][y].getOrganismo())
+                if (tablero.getCeldas()[x][y].getOrganismo())
                     System.out.println("La celda [" + x + "][" + y + "] ya tien organismo.\nReiniciando proceso para organismo inicial " + i);
-            } while (tablero.celdas[x][y].getOrganismo());
+            } while (tablero.getCeldas()[x][y].getOrganismo());
 
-            tablero.celdas[x][y].setOrganismo(true);
+            tablero.getCeldas()[x][y].setOrganismo(true);
         }
+    }
+
+    static boolean getMarcar() {
+        return marcar;
+    }
+
+    static boolean getDebug() {
+        return debug;
     }
 }

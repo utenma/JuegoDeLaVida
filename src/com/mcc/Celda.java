@@ -1,6 +1,6 @@
 package com.mcc;
 
-public class Celda {
+class Celda {
     private AccionDeCelda accion;
     private boolean organismo;
 
