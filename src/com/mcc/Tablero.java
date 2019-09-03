@@ -20,10 +20,11 @@ class Tablero {
 
     /**
      * Construye el tablero con toda la informacion necesaria
-     * @param numFilas número de filas del tablero
-     * @param numColumnas número de columnas del tablero
+     *
+     * @param numFilas        número de filas del tablero
+     * @param numColumnas     número de columnas del tablero
      * @param numGeneraciones número de generaciones del juego
-     * @param porOrganismos porcentaje de organismos vivos con respecto al numero de celdas del tablero
+     * @param porOrganismos   porcentaje de organismos vivos con respecto al numero de celdas del tablero
      */
     public Tablero(int numFilas, int numColumnas, int numGeneraciones, int porOrganismos) {
         filas = numFilas;
@@ -59,18 +60,32 @@ class Tablero {
     Celda[][] getCeldas() { return celdas; }
 
     /**
+     * Define la accion de una celda especifica basado en el numero de vecinos y el estado actual
+     *
+     * @param numVecinos numero de vecinos de la celda
+     * @param organismo  estado actual de la celda
+     */
+    private AccionDeCelda definirAccionParaCeldas(int numVecinos, boolean organismo) {
+        if (organismo) {
+            if (numVecinos < 2) return AccionDeCelda.Eliminar;
+            else if (numVecinos == 2 || numVecinos == 3) return AccionDeCelda.Ninguna;
+            else return AccionDeCelda.Eliminar; //Vecinos > 3
+        } else if (numVecinos == 3) return AccionDeCelda.Agregar;
+        return AccionDeCelda.Ninguna;
+    }
+
+    /**
      * Obtiene el numero de vecinos para una celda[x][y]
+     *
      * @param x fila
      * @param y columna
      * @return AccionDeCelda
      */
-    private AccionDeCelda definirAccionParaCelda(byte x, byte y) {
-
+    private int contarVecinosParaCelda(byte x, byte y) {
         if (Motor.getDebug()) {
             System.out.println("-----------------------------------------------------");
             System.out.println("Revisión de vecinos para celda [" + x + "][" + y + "]");
         }
-
         byte vecinos = 0;
         for (int f = -1; f <= 1; f++) {
             int X = x + f;
@@ -87,9 +102,10 @@ class Tablero {
                             }
                             if (celdas[X][Y].getOrganismo()) vecinos++;
                         } catch (Exception e) {
-                            if (Motor.getDebug())
+                            if (Motor.getDebug()) {
                                 System.out.println("Excepción para Celda [" + X + "][" + Y + "]");
-                            if (Motor.getDebug()) System.out.println(e.getMessage());
+                                System.out.println(e.getMessage());
+                            }
                         }
                     }
                 }
@@ -97,23 +113,48 @@ class Tablero {
         }
         if (Motor.getDebug())
             System.out.println("Resultado de revisión de vecinos para celda [" + x + "][" + y + "] = " + vecinos + " Vecinos");
-        if (celdas[x][y].getOrganismo()) {
-            if (vecinos < 2) return AccionDeCelda.Eliminar;
-            else if (vecinos == 2 || vecinos == 3) return AccionDeCelda.Ninguna;
-            else return AccionDeCelda.Eliminar; //Vecinos > 3
-        } else if (vecinos == 3) return AccionDeCelda.Agregar;
+        return vecinos;
+    }
 
-        return AccionDeCelda.Ninguna;
+    /**
+     * Obtiene el numero de vecinos para una celda[x][y]
+     * Genera Excepciones durante la ejecución
+     *
+     * @param x fila
+     * @param y columna
+     * @return AccionDeCelda
+     */
+    private int contarVecinosParaCeldaExcepciones(byte x, byte y) {
+        if (Motor.getDebug()) {
+            System.out.println("-----------------------------------------------------");
+            System.out.println("Revisión de vecinos para celda [" + x + "][" + y + "]");
+        }
+        byte vecinos = 0;
+        for (int f = -1; f <= 1; f++) {
+            for (int c = -1; c <= 1; c++) {
+                if (f == 0 && c == 0) continue;
+                try {
+                    if (celdas[x + f][y + c].getOrganismo()) vecinos++;
+                } catch (Exception e) {
+                }
+            }
+        }
+        if (Motor.getDebug())
+            System.out.println("Resultado de revisión de vecinos para celda [" + x + "][" + y + "] = " + vecinos + " Vecinos");
+        return vecinos;
     }
 
     /**
      * Actualiza las acciones en cada una de las celdas del tablero
+     *
      * @return void
      */
     public void calcularAcciones() {
         for (byte f = 0; f < celdas.length; f++) {
             for (byte c = 0; c < celdas[f].length; c++) {
-                celdas[f][c].setAccion(definirAccionParaCelda(f, c));
+                int vecinos = contarVecinosParaCeldaExcepciones(f, c);
+                AccionDeCelda accion = definirAccionParaCeldas(vecinos, celdas[f][c].getOrganismo());
+                celdas[f][c].setAccion(accion);
             }
         }
         if (Motor.getDebug()) System.out.println("-----------------------------------------------------");
@@ -121,6 +162,7 @@ class Tablero {
 
     /**
      * Aplica la ultima accion en cada una de las celdas
+     *
      * @return void
      */
     public void aplicarAcciones() {
@@ -136,6 +178,7 @@ class Tablero {
     /**
      * Imprime el tablero en la consola.
      * Muestra las acciones de celdas si la funcion está activa
+     *
      * @return void
      */
     public void mostrarCeldas() {
@@ -173,6 +216,7 @@ class Tablero {
 
     /**
      * Genera organismos iniciales en celdas aleatorias que no tengan organismos vivos
+     *
      * @return void
      */
     public void generarOrganismosRandom() {
@@ -191,6 +235,7 @@ class Tablero {
     /**
      * Regresa el numero de organismos total del tablero en la generación actual.
      * Si el numero es cero el juego debe terminar
+     *
      * @return int
      */
     public int numeroDeOrganismos() {
@@ -206,6 +251,7 @@ class Tablero {
     /**
      * Regresa el numero de acciones total de las celdas de tipo agregar o eliminar
      * Si el numero es cero el juego debe terminar
+     *
      * @return boolean
      */
     public boolean hayAcciones() {
