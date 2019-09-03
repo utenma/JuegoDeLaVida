@@ -5,7 +5,7 @@ import com.util.Consola;
 import java.util.Random;
 
 /**
- * Unico de su tipo en el juego, solo hay un tablero en todo el ciclo de vida del juego.
+ * Unico de su tipo en el juego, solo hay un tablero en _todo el ciclo de vida del juego.
  * Contiene un arreglo bidimensional de celdas y metodos para definir y aplicar acciones a las mismas,
  * así como toda la informacion sobre numero de filas/columnas, numero de generaciones,
  * generacion actual y numero de organismos inicales
@@ -66,6 +66,9 @@ class Tablero {
      * @param organismo  estado actual de la celda
      */
     private AccionDeCelda definirAccionParaCeldas(int numVecinos, boolean organismo) {
+
+        //todo si esta vivo y (vecines<2 or >=4)
+        //todo si esta no vivo y vecinos ==3
         if (organismo) {
             if (numVecinos < 2) return AccionDeCelda.Eliminar;
             else if (numVecinos == 2 || numVecinos == 3) return AccionDeCelda.Ninguna;
@@ -81,7 +84,7 @@ class Tablero {
      * @param y columna
      * @return AccionDeCelda
      */
-    private int contarVecinosParaCelda(byte x, byte y) {
+    private int contarVecinosParaCelda(int x, int y) {
         if (Motor.getDebug()) {
             System.out.println("-----------------------------------------------------");
             System.out.println("Revisión de vecinos para celda [" + x + "][" + y + "]");
@@ -124,7 +127,7 @@ class Tablero {
      * @param y columna
      * @return AccionDeCelda
      */
-    private int contarVecinosParaCeldaExcepciones(byte x, byte y) {
+    private int contarVecinosParaCeldaExcepciones(int x, int y) {
         if (Motor.getDebug()) {
             System.out.println("-----------------------------------------------------");
             System.out.println("Revisión de vecinos para celda [" + x + "][" + y + "]");
@@ -132,7 +135,7 @@ class Tablero {
         byte vecinos = 0;
         for (int f = -1; f <= 1; f++) {
             for (int c = -1; c <= 1; c++) {
-                if (f == 0 && c == 0) continue;
+                if (f == 0 && c == 0) continue; //todo poner al final y si la celda esta vivi restar 1
                 try {
                     if (celdas[x + f][y + c].getOrganismo()) vecinos++;
                 } catch (Exception e) {
