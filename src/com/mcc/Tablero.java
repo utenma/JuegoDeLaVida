@@ -64,10 +64,8 @@ class Tablero {
                         try {
                             if (Motor.getDebug()) {
                                 System.out.print("Vecino [" + X + "][" + Y + "] = ");
-                                if (celdas[X][Y].getOrganismo())
-                                    System.out.println(Consola.Color.GREEN + celdas[X][Y].getOrganismo() + Consola.Color.RESET);
-                                else
-                                    System.out.println(Consola.Color.RED + celdas[X][Y].getOrganismo() + Consola.Color.RESET);
+                                String color = (celdas[X][Y].getOrganismo()) ? Consola.Color.GREEN : Consola.Color.RED;
+                                System.out.println(color + celdas[X][Y].getOrganismo() + Consola.Color.RESET);
                             }
                             if (celdas[X][Y].getOrganismo()) vecinos++;
                         } catch (Exception e) {
@@ -123,18 +121,16 @@ class Tablero {
             for (int c = 0; c < celdas[f].length; c++) {
                 System.out.print("|");
                 String caracter ;
-                String color = Consola.Color.BLUE;
+                String color;
                 if (celdas[f][c].getOrganismo()) {
                     caracter = "*";
-                    if(Motor.getMarcar()) { if (celdas[f][c].getAccion() == AccionDeCelda.Eliminar) color = Consola.Color.RED;}
+                    if(Motor.getMarcar()) {color = (celdas[f][c].getAccion() == AccionDeCelda.Eliminar) ? Consola.Color.RED : Consola.Color.BLUE;}
+                    else color = Consola.Color.BLUE;
                 }
                 else {
-                    if (Motor.getMarcar()) {
-                        if (celdas[f][c].getAccion() == AccionDeCelda.Agregar) {
-                            color = Consola.Color.WHITE;
-                            caracter = "¤";
-                        } else caracter = " ";
-                    } else caracter = " ";
+                    if (Motor.getMarcar()) { caracter = (celdas[f][c].getAccion() == AccionDeCelda.Agregar) ? "¤" :  " ";}
+                    else caracter = " ";
+                    color = Consola.Color.WHITE;
                 }
                 System.out.print(color + caracter + Consola.Color.RESET);
             }
