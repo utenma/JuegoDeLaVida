@@ -14,7 +14,6 @@ class Motor {
     /**
      * Funcion de entrada del programa
      * @param args arreglo String con los parámetros ingresados al inciar el programa
-     * @return void
      */
     public static void main(String[] args) {
         System.out.println("Tecnologías de programación");
@@ -40,7 +39,7 @@ class Motor {
         int columnas = leerEntero();
         System.out.print("Numero de Generaciones (2 o más): ");
         int generaciones = leerEntero();
-        generaciones = (generaciones>=2)? generaciones : 2;
+        generaciones = Math.max(generaciones, 2);
         System.out.print("Porcentaje de Organismos Inicales (de 1 a 50) % : ");
         int porcentajeDeOrganismosIniciales = leerEntero();
         if (porcentajeDeOrganismosIniciales < 1) porcentajeDeOrganismosIniciales = 1;

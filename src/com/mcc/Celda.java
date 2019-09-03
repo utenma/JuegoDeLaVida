@@ -16,7 +16,6 @@ class Celda {
     /**
      * Define la celda como vacia (sin organismo)
      * y sin accion
-     * @return void
      */
     public Celda() {
         organismo = false;
@@ -29,8 +28,8 @@ class Celda {
     boolean getOrganismo() { return organismo; }
     void setOrganismo(boolean organismo) { this.organismo = organismo; }
 
-    public class pos {
+/*    public class pos {
         public int x;
         public int y;
-    }
+    }*/
 }
