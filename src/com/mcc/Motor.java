@@ -38,17 +38,18 @@ class Motor {
         int filas = leerEntero();
         System.out.print("Numero de Columnas : ");
         int columnas = leerEntero();
-        System.out.print("Numero de Generaciones : ");
+        System.out.print("Numero de Generaciones (2 o más): ");
         int generaciones = leerEntero();
+        generaciones = (generaciones>=2)? generaciones : 2;
         System.out.print("Porcentaje de Organismos Inicales (de 1 a 50) % : ");
         int porcentajeDeOrganismosIniciales = leerEntero();
         if (porcentajeDeOrganismosIniciales < 1) porcentajeDeOrganismosIniciales = 1;
         else if (porcentajeDeOrganismosIniciales > 50) porcentajeDeOrganismosIniciales = 50;
-        System.out.print("Generar Organismos Iniciales en posiciones random Sí: true , No: false ");
+        System.out.print("Generar organismos iniciales en posiciones random Sí: true , No: false ");
         organismosRandom = leerBooleano();
         System.out.print("Marcar acciones en tablero: true , No: false ");
         marcar = leerBooleano();
-        System.out.print("Mostrar Debug Sí: true , No: false ");
+        System.out.print("Mostrar impresión de conteo de vecinos Sí: true , No: false ");
         debug = leerBooleano();
 
         tablero = new Tablero(filas, columnas, generaciones, porcentajeDeOrganismosIniciales);
@@ -68,15 +69,15 @@ class Motor {
         tablero.mostrarCeldas();
         System.out.print("Esperando enter ->");
         sc.nextLine();
-        while (tablero.getGeneracionActual() < tablero.getNumeroDeGeneraciones()) {
+        do {
             tablero.aplicarAcciones();
             tablero.calcularAcciones();
             tablero.mostrarCeldas();
-            if (!tablero.hayAcciones()) break;
-            if (tablero.numeroDeOrganismos() == 0) break;
+            if (!tablero.hayAcciones()) break; //Ya no hay cambios en generaciones siguientes
+            if (tablero.numeroDeOrganismos() == 0) break; //Ya no hay organismos
             System.out.print("Presione enter ->");
             sc.nextLine();
-        }
+        } while (tablero.getGeneracionActual() < tablero.getNumeroDeGeneraciones());
         int numeroDeOrganismos = tablero.numeroDeOrganismos();
         if (numeroDeOrganismos > 0)
             System.out.println(Consola.Color.GREEN + "Juego Ganado con " + numeroDeOrganismos + " organismos" + Consola.Color.RESET);
